@@ -13,8 +13,8 @@ show live GitHub data, so a card never needs regenerating to stay current.
 
 1. Check the CLI is installed: `ghcard --version` (this skill is written for
    0.1.0 or later). If it is missing and Node.js 20+ is available, run it
-   through npx without installing: replace `ghcard` with `npx -y ghcard` in
-   every command below. Suggest `npm install -g ghcard` to the user if they
+   through npx without installing: replace `ghcard` with `npx -y @ghcardhq/ghcard` in
+   every command below. Suggest `npm install -g @ghcardhq/ghcard` to the user if they
    will use it again; do not install global packages without asking.
 2. Check auth: `ghcard auth status --json`.
    - Exit code 3 / `NO_API_KEY` or `UNAUTHORIZED`: the user needs a key from
