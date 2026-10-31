@@ -33,8 +33,8 @@ Always pass `--json` and read stdout as one JSON document:
 **Card for a profile or repo** (the common case):
 
 ```bash
-ghcard card octocat --json
-ghcard card octocat/hello-world --json
+ghcard create octocat --json
+ghcard create octocat/hello-world --json
 ```
 
 Use `data.urls.svg` / `data.urls.png` for links and `data.embed.markdown`
@@ -45,7 +45,7 @@ existed, which is expected and fine.
 existing `<!-- ghcard:<subject> -->` block on later runs):
 
 ```bash
-ghcard card octocat --readme README.md --json
+ghcard create octocat --readme README.md --json
 ```
 
 For a GitHub *profile* README the file lives in the repo named after the
@@ -58,7 +58,7 @@ committing; do not commit or push unless they ask.
 ghcard templates --scope profile --free --json   # or --scope repo
 ghcard templates --scope profile --free --widget streak --json   # must contain these widgets
 ghcard palettes --json
-ghcard card octocat --template pro-terminal --palette sage --json
+ghcard create octocat --template pro-terminal --palette sage --json
 ```
 
 Each template lists its `widgets`. `--palette` takes only preset ids; for
@@ -78,8 +78,8 @@ or sizes that no template has:
 ghcard components --json                                 # widget types
 ghcard design init social --subject octocat -o design.json --json   # template as JSON (free, no quota)
 # edit design.json: artboard (width, height, background.color, style.*) and layers[]
-ghcard card octocat --design design.json --dry-run --json   # free check: ids, Pro features, layout
-ghcard card octocat --design design.json --json          # publish it
+ghcard create octocat --design design.json --dry-run --json   # free check: ids, Pro features, layout
+ghcard create octocat --design design.json --json            # publish it
 ```
 
 Always `--dry-run` an edited design first: it catches every request error
@@ -97,7 +97,7 @@ Editing rules (`ghcard design --help` has the full list):
   Removing one leaves its space empty; widen or move neighbours to fill it.
 - Keep each layer's `id` unique and its `type` from `ghcard components`.
   `layer` is only stacking order; gaps are fine.
-- The subject inside the file is ignored; the `card` argument decides
+- The subject inside the file is ignored; the `create` argument decides
   whose data is shown. `showWatermark` is decided by the server.
 - `artboard.background.color` is a full CSS background: a hex colour, or a
   gradient/pattern such as `radial-gradient(...) 0 0 / 22px 22px #0d1117`.
@@ -116,7 +116,7 @@ working until deleted). Keep each layer's `id` unique and its `type` from
 link if the user would rather drag things around themselves.
 
 **Download the image** instead of linking it:
-`ghcard card octocat --format png --output card.png --json`.
+`ghcard create octocat --format png --output card.png --json`.
 
 Flags combine in one call (one quota unit): `--design`, `--format`,
 `--output`, `--readme`. `--format` decides which link is printed and which
@@ -128,8 +128,8 @@ Links: share `data.urls` (live: they re-render with current GitHub data).
 `data.snapshotUrls` are frozen images of the moment the card was created;
 use them only when the user asks for an image that never changes.
 
-**Manage cards:** `ghcard cards list --json`, `ghcard usage --json`.
-`ghcard cards delete <id> --yes --json` breaks every place the card is
+**Manage cards:** `ghcard list --json`, `ghcard usage --json`.
+`ghcard delete <id> --yes --json` breaks every place the card is
 embedded, so confirm with the user first.
 
 ## Handling errors
@@ -158,7 +158,7 @@ you stop, tell the user which step failed and the last `error.message`.
 
 ## Things to avoid
 
-- Calling `ghcard card` repeatedly to "refresh" a card: each call costs
+- Calling `ghcard create` repeatedly to "refresh" a card: each call costs
   quota and the link already shows live data.
 - Hand-building `githubcard.com` URLs: use the links the CLI returns.
 - Passing `--no-watermark` on a Free account: the server keeps the
@@ -172,4 +172,4 @@ If GitHubCard MCP tools are available (`create_card`, `validate_card`,
 same things and return the same error codes; use whichever is available.
 This plugin adds the hosted server at `https://githubcard.com/mcp`. Its tools
 cannot edit files, so insert `embed.markdown` into the README yourself, or
-use `ghcard card ... --readme`.
+use `ghcard create ... --readme`.
