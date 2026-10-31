@@ -1,0 +1,23 @@
+{
+  "name": "githubcard",
+  "version": "0.1.0",
+  "description": "Create GitHub profile and repository cards and add them to README files, with the ghcard CLI or the hosted GitHubCard MCP server.",
+  "author": {
+    "name": "GitHubCard",
+    "url": "https://githubcard.com"
+  },
+  "homepage": "https://githubcard.com",
+  "privacyPolicyUrl": "https://githubcard.com/~privacy",
+  "repository": "https://github.com/ghcardhq/skills",
+  "license": "MIT",
+  "keywords": ["github", "readme", "profile", "card", "social-preview", "mcp"],
+  "userConfig": {
+    "api_key": {
+      "title": "GitHubCard API key",
+      "description": "From https://githubcard.com/dashboard (starts with ghc_live_). Needed to create cards; browsing templates works without it.",
+      "type": "string",
+      "sensitive": true,
+      "required": false
+    }
+  }
+}

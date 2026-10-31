@@ -1,0 +1,21 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "githubcard",
+  "owner": {
+    "name": "GitHubCard",
+    "url": "https://githubcard.com"
+  },
+  "metadata": {
+    "description": "GitHubCard plugins for Claude Code: GitHub profile and repository cards for READMEs and social previews."
+  },
+  "plugins": [
+    {
+      "name": "githubcard",
+      "source": "./plugins/githubcard",
+      "description": "Create GitHub profile and repository cards and add them to README files, with the ghcard CLI or the hosted GitHubCard MCP server.",
+      "category": "productivity",
+      "homepage": "https://githubcard.com",
+      "keywords": ["github", "readme", "profile", "card", "social-preview", "mcp"]
+    }
+  ]
+}
