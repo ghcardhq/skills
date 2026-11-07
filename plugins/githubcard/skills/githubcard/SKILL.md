@@ -75,7 +75,8 @@ Prefer templates with `"pro": false` unless the user has Pro
 or sizes that no template has:
 
 ```bash
-ghcard components --json                                 # widget types
+ghcard components --json                                 # widget types, their settings, fonts
+ghcard components text --json                            # one widget's settings
 ghcard design init social --subject octocat -o design.json --json   # template as JSON (free, no quota)
 # edit design.json: artboard (width, height, background.color, style.*) and layers[]
 ghcard create octocat --design design.json --dry-run --json   # free check: ids, Pro features, layout
@@ -108,6 +109,26 @@ Editing rules (`ghcard design --help` has the full list):
   or a free template's own background. On Free, the editor's Pro
   fonts and background presets fail with `PRO_FEATURE`; fonts and
   backgrounds that free templates already use are fine.
+- Each component's `options` lists the settings it reads. A `text` layer
+  takes `text` (`\n` breaks lines; long lines wrap to the box) and
+  `style.fontSize`, `fontWeight`, `textColor`, `textAlign`,
+  `backgroundColor`, `borderColor`, `borderWidth`: enough for headlines,
+  labels, and filled boxes or pills. Give it a box about
+  `lines × fontSize × 1.2 + 20` px tall, or the last line is clipped.
+- Use a font from `data.fonts` (`style.fontFamily` takes its `value`).
+  Chinese, Japanese and Korean text renders through Noto Sans SC.
+
+**Promo or social images** (a post on X, a launch image): build a custom
+design at the platform's size (X: 1200x675), and read the result before
+sharing it, since layout problems only show in the render.
+- For a repository, a `repoStarsHistory` layer shows its growth curve. Send
+  only position, size and `style` (`style.starHistoryPreset`:
+  `hand-drawn`, `editorial`, or `poster`); the server fills the star data.
+  The curve and any numbers you write into `text` layers are a snapshot
+  from the moment of creation, so check the current numbers first.
+- `--format png --output card.png` saves the published image. Open it and
+  check for clipped text, overlaps and empty areas; adjust the design and
+  create again (each version is a new card).
 
 To change an existing card: `ghcard design get <card-id> -o design.json`,
 edit, and publish again (this creates a new card; the old link keeps
