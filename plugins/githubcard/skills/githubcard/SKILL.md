@@ -9,10 +9,13 @@ description: Create embeddable GitHub profile and repository card images with th
 with stable SVG/PNG links and ready-made Markdown/HTML embeds. Card images
 show live GitHub data, so a card never needs regenerating to stay current.
 
+For the hosted editor, API keys, templates, and MCP setup, see
+[GitHubCard](https://githubcard.com).
+
 ## Before you start
 
 1. Check the CLI is installed: `ghcard --version` (this skill is written for
-   0.1.0 or later). If it is missing and Node.js 20+ is available, run it
+   0.2.1 or later). If it is missing and Node.js 20+ is available, run it
    through npx without installing: replace `ghcard` with `npx -y @ghcardhq/ghcard` in
    every command below. Suggest `npm install -g @ghcardhq/ghcard` to the user if they
    will use it again; do not install global packages without asking.
@@ -22,7 +25,7 @@ show live GitHub data, so a card never needs regenerating to stay current.
      `ghcard auth login` themselves, or to set `GHCARD_API_KEY`.
      Never ask the user to paste the key into the chat, and never echo,
      log, or write a key into a file in the repository.
-   - Listing templates/palettes works without a key.
+   - Listing templates, palettes, and components works without a key.
 
 Always pass `--json` and read stdout as one JSON document:
 `{"ok": true, "data": ...}` or
@@ -83,10 +86,11 @@ ghcard create octocat --design design.json --dry-run --json   # free check: ids,
 ghcard create octocat --design design.json --json            # publish it
 ```
 
-Always `--dry-run` an edited design first: it catches every request error
-without creating a card or using quota, and `data.warnings` lists layers
-that reach outside the artboard (they would be clipped). Fix warnings
-before publishing. When you darken or lighten the background a lot, also
+Always `--dry-run` an edited design first: it validates the request and design
+without creating a card or using quota. It does not look up GitHub, so a
+successful dry run does not prove that the subject exists. `data.warnings`
+lists layers that reach outside the artboard (they would be clipped). Fix
+warnings before publishing. When you darken or lighten the background a lot, also
 set `artboard.style.textColor` / `secondaryTextColor` so text stays readable.
 
 Prefer a template that already has exactly the widgets the user wants
@@ -172,9 +176,10 @@ Branch on `error.code` (or the exit code), and use `error.hint`:
 | `CARD_GENERATION_IN_PROGRESS`, `NETWORK_ERROR` (6) | A first card can take minutes to render. Wait ~30s and repeat the identical command; it resumes the same card. At most 5 attempts in total |
 | `CARD_GENERATION_FAILED` (6) | A server-side rendering failure, not your request (a `--dry-run` that passes proves the request is fine). Repeat at most 2 more times, then stop and report it |
 
-Failed calls are refunded (`ghcard usage` shows the same `used` before and
-after), so repeating the identical command never costs extra quota. When
-you stop, tell the user which step failed and the last `error.message`.
+Failed calls are normally refunded (`ghcard usage` shows the same `used`
+before and after), so repeating the identical command is safe. If a retry
+matters near the quota limit, check `ghcard usage --json` before repeating.
+When you stop, tell the user which step failed and the last `error.message`.
 `error.hint` gives the same rule for each code.
 
 ## Things to avoid
@@ -191,6 +196,8 @@ If GitHubCard MCP tools are available (`create_card`, `validate_card`,
 `list_templates`, `list_palettes`, `list_components`, `get_template_design`,
 `get_card_design`, `list_cards`, `delete_card`, `get_usage`), they do the
 same things and return the same error codes; use whichever is available.
-This plugin adds the hosted server at `https://githubcard.com/mcp`. Its tools
-cannot edit files, so insert `embed.markdown` into the README yourself, or
-use `ghcard create ... --readme`.
+The Claude plugin provides a local stdio MCP server. Its tools can edit files
+only when the local server is started with `--allow-file-writes`; otherwise
+insert `embed.markdown` into the README yourself, or use
+`ghcard create ... --readme`. Hosted MCP setup is documented in the
+[githubcard-mcp repository](https://github.com/ghcardhq/githubcard-mcp).

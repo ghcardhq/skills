@@ -1,7 +1,7 @@
 {
   "name": "githubcard",
-  "version": "0.1.0",
-  "description": "Create GitHub profile and repository cards and add them to README files, with the ghcard CLI or the hosted GitHubCard MCP server.",
+  "version": "0.2.2",
+  "description": "Create GitHub profile and repository cards and add them to README files, with the ghcard CLI or local GitHubCard MCP tools.",
   "author": {
     "name": "GitHubCard",
     "url": "https://githubcard.com"
