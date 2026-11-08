@@ -1,10 +1,10 @@
 {
   "mcpServers": {
     "githubcard": {
-      "command": "npx",
-      "args": ["-y", "@ghcardhq/ghcard@0.2.1", "mcp"],
-      "env": {
-        "GHCARD_API_KEY": "${user_config.api_key}"
+      "type": "http",
+      "url": "https://githubcard.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${user_config.api_key}"
       }
     }
   }
